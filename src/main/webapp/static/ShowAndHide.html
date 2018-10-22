@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ShowAndHide</title>
+    <script type="application/javascript" src="knockout-3.5.0rc2.debug.js"></script>
+    <script type="application/javascript" src="jquery.min.js"></script>
+</head>
+<body>
+    <input type='checkbox' onClick="display()"/>
+    <div data-bind="visible: shouldShowMessage">
+        You will see this message only when "shouldShowMessage" holds a true value.
+    </div>
+    <div id="writeDiv" style="width:100px;height: 100px;border: 1px solid black;">
+
+    </div>
+
+    <script type="text/javascript">
+        var viewModel = {
+            shouldShowMessage: ko.observable(true) // Message initially visible
+        };
+        
+        function display() {
+            console.debug("---display begin");
+            viewModel.shouldShowMessage(false); // ... now it's hidden
+
+            let laterTime = Date.now();
+            while (Date.now() - laterTime <= 2000){
+                $('body').append(".");
+            }
+            viewModel.shouldShowMessage(true); // ... now it's visible again
+            console.debug("---display end");
+        }
+
+        ko.applyBindings(viewModel);
+    </script>
+</body>
+</html>

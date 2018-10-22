@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+
+    <script type="application/javascript" src="knockout-3.5.0rc2.debug.js"></script>
+</head>
+<body>
+    <!--Simple list example
+    This example demonstrates binding to an array of values.
+
+    Notice how the “Add” button is enabled only when you have entered some text - check the HTML source code to see how to use the “enable” binding.
+-->
+
+    <form data-bind="submit: addItem">
+        New item:
+        <input data-bind='value: itemToAdd, valueUpdate: "afterkeydown"'/>
+        <button type="submit" data-bind="enable: itemToAdd().length > 0">Add</button>
+        <p>Your items:</p>
+        <select multiple="multiple" width="50" data-bind="options: items"> </select>
+    </form>
+    <script language="JavaScript">
+        var SimpleListModel = function (items) {
+            this.items = ko.observableArray(items);
+            this.itemToAdd = ko.observable("");
+            this.addItem = function () {
+                if (this.itemToAdd() != "") {
+                    this.items.push(this.itemToAdd()); // Adds the item. Writing to the "items" observableArray causes any associated UI to update.
+                    this.itemToAdd(""); // Clears the text box, because it's bound to the "itemToAdd" observable
+                }
+            }.bind(this);  // Ensure that "this" is always this view model
+        };
+
+        ko.applyBindings(new SimpleListModel(["Alpha", "Beta", "Gamma"]));
+    </script>
+</body>
+</html>
